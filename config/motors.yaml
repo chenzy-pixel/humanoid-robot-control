@@ -1,0 +1,25 @@
+# Configure every motor for the actual hardware before enabling.
+can_motor_controller_node:
+  ros__parameters:
+    hardware_confirmed: false
+    host_id: 0
+    input_timeout: 0.5
+    feedback_timeout: 0.5
+    joystick_axis: 1
+    joystick_deadzone: 0.15
+    device0: /dev/USB2CAN0
+    device1: /dev/USB2CAN1
+    motor_names: [motor_01, motor_02, motor_03, motor_04, motor_05, motor_06, motor_07, motor_08, motor_09, motor_10, motor_11, motor_12]
+    motors:
+      motor_01: {device: 0, channel: 1, id: 1, model: RS00, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: true}
+      motor_02: {device: 0, channel: 1, id: 2, model: RS00, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_03: {device: 0, channel: 1, id: 3, model: RS00, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_04: {device: 0, channel: 2, id: 1, model: RS02, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: true}
+      motor_05: {device: 0, channel: 2, id: 2, model: RS02, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_06: {device: 0, channel: 2, id: 3, model: RS02, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_07: {device: 1, channel: 1, id: 1, model: RS03, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: true}
+      motor_08: {device: 1, channel: 1, id: 2, model: RS03, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_09: {device: 1, channel: 1, id: 3, model: RS03, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_10: {device: 1, channel: 2, id: 1, model: RS04, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: true}
+      motor_11: {device: 1, channel: 2, id: 2, model: RS04, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}
+      motor_12: {device: 1, channel: 2, id: 3, model: RS04, min_position: -0.5, max_position: 0.5, neutral_position: 0.0, direction: 1.0, kp: 18.0, kd: 0.8, follow_joystick: false}

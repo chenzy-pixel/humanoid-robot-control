@@ -1,0 +1,108 @@
+// Offline API substitute. Actual ament/rclcpp integration is a separate CI job.
+#pragma once
+#include <rcl_interfaces/msg/parameter_descriptor.hpp>
+#include <sensor_msgs/msg/joy.hpp>
+#include <chrono>
+#include <functional>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <variant>
+#include <vector>
+
+namespace rclcpp {
+enum class ParameterType { PARAMETER_BOOL, PARAMETER_INTEGER, PARAMETER_DOUBLE, PARAMETER_STRING };
+class Parameter {
+    std::string name_;
+    std::variant<bool, int64_t, double, std::string, std::vector<std::string>> value_;
+public:
+    template<class T> Parameter(std::string name, T value) : name_(std::move(name)), value_(std::move(value)) {}
+    const std::string& get_name() const { return name_; }
+    template<class T> T get_value() const {
+        const auto value = std::get_if<T>(&value_);
+        if (!value) throw std::runtime_error("Parameter type mismatch: " + name_);
+        return *value;
+    }
+};
+class NodeOptions {
+public:
+    std::vector<Parameter> overrides;
+    NodeOptions& parameter_overrides(std::vector<Parameter> values) { overrides = std::move(values); return *this; }
+};
+struct Logger {};
+struct Clock {};
+inline Logger get_logger(const std::string&) { return {}; }
+struct SensorDataQoS {
+    unsigned depth = 5;
+    SensorDataQoS& keep_last(unsigned value) { depth = value; return *this; }
+};
+template<class M> struct Subscription { using SharedPtr = std::shared_ptr<Subscription<M>>; };
+class Node {
+    std::map<std::string, Parameter> overrides_, declared_;
+    std::map<std::string, bool> readonly_;
+    std::function<void(sensor_msgs::msg::Joy::ConstSharedPtr)> joy_callback_;
+public:
+    using SharedPtr = std::shared_ptr<Node>;
+    unsigned subscription_depth = 0;
+    explicit Node(const std::string&, const NodeOptions& options = {}) {
+        for (const auto& value : options.overrides) overrides_.emplace(value.get_name(), value);
+    }
+    Logger get_logger() const { return {}; }
+    std::shared_ptr<Clock> get_clock() const { return std::make_shared<Clock>(); }
+    template<class T> T declare_parameter(const std::string& name, T initial,
+        const rcl_interfaces::msg::ParameterDescriptor& descriptor = {}) {
+        if (declared_.count(name)) throw std::runtime_error("Already declared: " + name);
+        auto found = overrides_.find(name);
+        Parameter value = found == overrides_.end() ? Parameter(name, initial) : found->second;
+        const T result = value.get_value<T>();
+        declared_.emplace(name, value); readonly_[name] = descriptor.read_only;
+        return result;
+    }
+    Parameter declare_parameter(const std::string& name, ParameterType type,
+        const rcl_interfaces::msg::ParameterDescriptor& descriptor = {}) {
+        const auto found = overrides_.find(name);
+        if (found == overrides_.end()) throw std::runtime_error("Uninitialized parameter: " + name);
+        switch (type) {
+            case ParameterType::PARAMETER_BOOL: declare_parameter<bool>(name, false, descriptor); break;
+            case ParameterType::PARAMETER_INTEGER: declare_parameter<int64_t>(name, 0, descriptor); break;
+            case ParameterType::PARAMETER_DOUBLE: declare_parameter<double>(name, 0.0, descriptor); break;
+            case ParameterType::PARAMETER_STRING: declare_parameter<std::string>(name, "", descriptor); break;
+        }
+        return found->second;
+    }
+    template<class M, class Callback> typename Subscription<M>::SharedPtr create_subscription(
+        const std::string&, const SensorDataQoS& qos, Callback callback) {
+        subscription_depth = qos.depth; joy_callback_ = callback;
+        return std::make_shared<Subscription<M>>();
+    }
+    struct SetResult { bool successful; };
+    SetResult set_parameter(const Parameter& value) {
+        if (readonly_[value.get_name()]) return {false};
+        declared_.insert_or_assign(value.get_name(), value); return {true};
+    }
+    void dispatch(sensor_msgs::msg::Joy::ConstSharedPtr message) { joy_callback_(message); }
+};
+inline bool initialized = true;
+struct InitOptions {};
+enum class SignalHandlerOptions { None };
+inline void init(int, char**, const InitOptions& = {}, SignalHandlerOptions = SignalHandlerOptions::None) { initialized = true; }
+inline void shutdown() { initialized = false; }
+inline bool ok() { return initialized; }
+struct WallRate {
+    explicit WallRate(int) {}
+    void sleep() { std::this_thread::sleep_for(std::chrono::milliseconds(5)); }
+};
+namespace executors {
+struct SingleThreadedExecutor {
+    void add_node(const Node::SharedPtr&) {}
+    void spin_some(std::chrono::nanoseconds) {}
+};
+}
+template<class... T> void log(const Logger&, const char*, T&&...) {}
+}
+#define RCLCPP_INFO(logger, ...) rclcpp::log(logger, __VA_ARGS__)
+#define RCLCPP_WARN(logger, ...) rclcpp::log(logger, __VA_ARGS__)
+#define RCLCPP_ERROR(logger, ...) rclcpp::log(logger, __VA_ARGS__)
+#define RCLCPP_WARN_THROTTLE(logger, clock, interval, ...) rclcpp::log(logger, __VA_ARGS__)

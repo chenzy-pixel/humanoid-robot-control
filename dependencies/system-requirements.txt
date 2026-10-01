@@ -1,0 +1,13 @@
+# Target environment
+Ubuntu 24.04 (x86-64 or aarch64)
+ROS 2 Jazzy
+# Build tools and system libraries
+Bash
+CMake >= 3.16
+C++17 compiler and Make
+colcon (python3-colcon-common-extensions)
+pthread
+glibc providing libc.so.6
+Python 3
+# Transport compiled directly into can_node
+common/src/usb_can.cpp

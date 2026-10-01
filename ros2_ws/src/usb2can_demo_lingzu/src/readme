@@ -1,0 +1,5 @@
+ROS 2 Jazzy 控制节点
+
+电机型号、限位与增益从仓库根目录 config/motors.yaml 加载。
+使用 scripts/build_ros2.sh 构建，scripts/run_ros2.sh 启动。
+手柄轴与按钮、使能条件、日志及停止流程见 docs/运行指南.md。

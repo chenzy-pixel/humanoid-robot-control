@@ -1,0 +1,15 @@
+Humanoid Robot Control
+
+This project contains code derived from:
+  SOULDE-Studio/USB2CAN-Demo-Lingzu
+  https://github.com/SOULDE-Studio/USB2CAN-Demo-Lingzu
+  Original author: TANGAIR
+  License: Apache License, Version 2.0
+
+The source has been modified to add per-motor model configuration,
+validated serial framing, fault handling, and offline regression checks.
+Existing copyright and license notices are retained in the source files.
+
+Motor and adapter manuals and the reference vendor SDK binary retain
+their respective authors' rights and original terms. The code license
+does not grant additional rights to those third-party materials.

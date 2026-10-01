@@ -1,0 +1,10 @@
+# USB2CAN 设备规则
+
+usb_can.rules 识别 VID 1483、PID 1110～1113，生成 /dev/USB2CAN0～3。Linux 虚拟机需先完成 USB 透传。
+
+从仓库根目录执行：
+sudo install -m 0644 ros2_ws/src/usb2can_demo_lingzu/can/usb_can.rules /etc/udev/rules.d/usb_can.rules
+sudo udevadm control --reload-rules
+重新连接设备，再核对设备路径和权限。
+
+libusb_can.so 是参考副本；节点直接编译 common/src/usb_can.cpp。

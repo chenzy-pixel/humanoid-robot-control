@@ -1,0 +1,23 @@
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+logs/
+*.log
+**/__pycache__/
+*.py[cod]
+
+# Local editors, build output and private environment files
+.vscode/
+**/.vscode/
+build/
+build-*/
+tmp/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Historical local migration records; current checks are in docs/validation
+docs/迁移记录.json
+docs/离线校验.json

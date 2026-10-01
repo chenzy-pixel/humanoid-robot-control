@@ -1,0 +1,239 @@
+{
+  "date": "2026-10-02",
+  "passed": true,
+  "scope": "Source repository readiness; native tests with IO doubles and Linux cross-build",
+  "hardware_opened": false,
+  "actual_ros2_integration_tested": false,
+  "repository": {
+    "passed": true,
+    "files_checked": 60,
+    "local_links_checked": 21,
+    "ros2_launch_and_package_checked": true,
+    "credential_scan_passed": true,
+    "hardware_opened": false,
+    "errors": []
+  },
+  "python_launch_tests": "",
+  "protocol_native_test": "69 C++ protocol/transport checks passed",
+  "io_native_test": "23 C++ IO checks passed with substituted OS calls",
+  "ros2_config_native_test": "29 ROS 2 configuration and shutdown checks passed with API/IO doubles",
+  "cmake_source_mirror_bytes_verified": true,
+  "standalone_repository_cmake_linux_cross_build": true,
+  "transport_aarch64_compile": true,
+  "shell_syntax": true,
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "<repository>\\scripts\\check_repository.py"
+      ],
+      "exit_code": 0,
+      "output": "{\n  \"passed\": true,\n  \"files_checked\": 60,\n  \"local_links_checked\": 21,\n  \"ros2_launch_and_package_checked\": true,\n  \"credential_scan_passed\": true,\n  \"hardware_opened\": false,\n  \"errors\": []\n}\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n"
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-tools\\ziglang\\zig.exe",
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I",
+        "<repository>\\common\\include",
+        "-I",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\can",
+        "<repository>\\tests\\cpp\\protocol_test.cpp",
+        "-o",
+        "<workspace>\\tmp\\publication-validation\\protocol.exe"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-validation\\protocol.exe"
+      ],
+      "exit_code": 0,
+      "output": "69 C++ protocol/transport checks passed\n"
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-tools\\ziglang\\zig.exe",
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I",
+        "<repository>\\tests\\cpp\\linux_io_stub",
+        "-I",
+        "<repository>\\common\\include",
+        "-I",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\can",
+        "<repository>\\tests\\cpp\\usb2can_io_test.cpp",
+        "<repository>\\common\\src\\usb_can.cpp",
+        "-o",
+        "<workspace>\\tmp\\publication-validation\\io.exe"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-validation\\io.exe"
+      ],
+      "exit_code": 0,
+      "output": "23 C++ IO checks passed with substituted OS calls\n"
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-tools\\ziglang\\zig.exe",
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I",
+        "<repository>\\tests\\cpp\\ros2_stub",
+        "-I",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\include",
+        "-I",
+        "<repository>\\common\\include",
+        "-I",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\can",
+        "<repository>\\tests\\cpp\\ros2_config_test.cpp",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\src\\Tangair_usb2can.cpp",
+        "-o",
+        "<workspace>\\tmp\\publication-validation\\ros2_config.exe"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-validation\\ros2_config.exe"
+      ],
+      "exit_code": 0,
+      "output": "29 ROS 2 configuration and shutdown checks passed with API/IO doubles\n"
+    },
+    {
+      "command": [
+        "<temporary-ascii-check>\\cmake\\bin\\cmake.exe",
+        "-S",
+        "<temporary-ascii-check>\\repository",
+        "-B",
+        "<temporary-ascii-check>\\linux-build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_SYSTEM_NAME=Linux",
+        "-DCMAKE_CXX_COMPILER=<temporary-ascii-check>/ziglang/zig.exe",
+        "-DCMAKE_CXX_COMPILER_ARG1=c++",
+        "-DCMAKE_CXX_FLAGS=-target x86_64-linux-gnu",
+        "-DCMAKE_MAKE_PROGRAM=<temporary-ascii-check>/ninja.exe"
+      ],
+      "exit_code": 0,
+      "output": "-- The CXX compiler identification is Clang 18.1.6\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - failed\n-- Check for working CXX compiler: <temporary-ascii-check>/ziglang/zig.exe\n-- Check for working CXX compiler: <temporary-ascii-check>/ziglang/zig.exe - works\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n-- Found Threads: TRUE\n-- Configuring done (31.3s)\n-- Generating done (0.1s)\n-- Build files have been written to: <temporary-ascii-check>/linux-build\n"
+    },
+    {
+      "command": [
+        "<temporary-ascii-check>\\cmake\\bin\\cmake.exe",
+        "--build",
+        "<temporary-ascii-check>\\linux-build",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "output": "[1/11] Building CXX object CMakeFiles/usb2can_io_test.dir/tests/cpp/usb2can_io_test.cpp.o\n[2/11] Building CXX object CMakeFiles/protocol_test.dir/tests/cpp/protocol_test.cpp.o\n[3/11] Linking CXX executable protocol_test\n[4/11] Building CXX object CMakeFiles/usb2can_io_test.dir/common/src/usb_can.cpp.o\n[5/11] Linking CXX executable usb2can_io_test\n[6/11] Building CXX object CMakeFiles/ros2_api_compile_check.dir/ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp.o\n[7/11] Building CXX object CMakeFiles/ros2_api_compile_check.dir/ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp.o\n[8/11] Building CXX object CMakeFiles/usb2can_linux_compile_check.dir/common/src/usb_can.cpp.o\n[9/11] Building CXX object CMakeFiles/ros2_config_test.dir/tests/cpp/ros2_config_test.cpp.o\n[10/11] Building CXX object CMakeFiles/ros2_config_test.dir/ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp.o\n[11/11] Linking CXX executable ros2_config_test\n"
+    },
+    {
+      "command": [
+        "<workspace>\\tmp\\publication-tools\\ziglang\\zig.exe",
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-target",
+        "aarch64-linux-gnu",
+        "-I",
+        "<repository>\\common\\include",
+        "-I",
+        "<repository>\\ros2_ws\\src\\usb2can_demo_lingzu\\can",
+        "-c",
+        "<repository>\\common\\src\\usb_can.cpp",
+        "-o",
+        "<workspace>\\tmp\\publication-validation\\usb_can-aarch64.o"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "C:/Program Files/Git/bin/bash.exe",
+        "-n",
+        "<repository>/scripts/build_ros2.sh"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "C:/Program Files/Git/bin/bash.exe",
+        "-n",
+        "<repository>/scripts/run_ros2.sh"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "source_sha256": {
+    ".github/workflows/ci.yml": "3d6b38c5ddc6e4c63ef0dc2572c8385fbf705027ba472f682ea487b53f62641c",
+    "CMakeLists.txt": "fcee79292bfe9bbfc61561d71b794462ca53ec28f9eb876411fd1abd2a6986f9",
+    "common/include/lingzu_protocol.hpp": "1479c7644385fa9cf371dbb9a6b0a98ecda8bab33ba4b2b96eac665db88aa707",
+    "common/include/usb2can_packet.hpp": "cdf0608ec23b7b1756a25fd958dbbaffa94eee9369769b8f0cc2c28f2ec78664",
+    "common/include/usb2can_transport.hpp": "590d439a1f7d16fb658acf1138622643420cdb08fc792e935ce1b31fabc09699",
+    "common/src/usb_can.cpp": "40a1965e9722600fa0661ae241a9f241a5b77db965a6cc2fa0e9a4679b186544",
+    "config/motors.yaml": "cf494835bc22ead1f1c29b27277cda08911be7fa8feeea7dccded725453db54d",
+    "ros2_ws/src/usb2can_demo_lingzu/can/usb_can.h": "9f34d63b8d73b75ac386b79fe5c25e90f286076aa9e44d405da358b6cc6e7f2c",
+    "ros2_ws/src/usb2can_demo_lingzu/CMakeLists.txt": "6a38a5d9adfc70df628eaeb654fd48ce6712ea3c53b8ff86c740dd59e0c4440e",
+    "ros2_ws/src/usb2can_demo_lingzu/include/Tangair_usb2can.h": "0ef3cc9a00e92c75577315dcd43f96400827d8d4eb0e99662aa803644bede128",
+    "ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp": "cb039aef0638602dd5143d51fa00f495cb40e58e884a76c387035c1a2eb7b0ed",
+    "ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp": "595afbeff175ad3f2856dea41be9c94929cbaa198c62ff7c3f28b450ec4393f4",
+    "ros2_ws/src/usb2can_demo_lingzu/test/config_test.cpp": "0a389d35c2fca666bc2db7e80f5d9c486e4112cfc30133dfb32a4c77dddcb16c",
+    "scripts/build_ros2.sh": "e9221eba52633d44693ec4eb1e455c963b8a25a69a3281608b626043e52f23e7",
+    "scripts/check_repository.py": "772ac32465b5bb1ae02f273388a68f587801842a410f024b04c14d7d0b0c99de",
+    "scripts/run_ros2.sh": "2180642ee899be36e3a2902ab8f9df6d674b84cf4fd71340589a7c7eb7f8a2cf",
+    "tests/cpp/linux_io_stub/fcntl.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/poll.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/sys/file.h": "d34b6fe25c9d05cbd0c51762349de39b6d15e4176c12d47a02a7cdd7d8aaccb2",
+    "tests/cpp/linux_io_stub/termios.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/test_io.hpp": "56d1efbd9075b03ba97cc06f9e871ed9c0ac5d33f28d2676c19f0237568483c8",
+    "tests/cpp/linux_io_stub/unistd.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/protocol_test.cpp": "7feb90d45fe07f2b3abd152005e209422cf2df6c81ea2d74771851a203fcd096",
+    "tests/cpp/ros2_config_test.cpp": "f2ebd71a5b38185ba30146ff5b75374b14fcb92fe235654259e86a3e633ee88c",
+    "tests/cpp/ros2_stub/rcl_interfaces/msg/parameter_descriptor.hpp": "102a127d6f43469b3388335254e8c14de9a52946f46cfdb539bda1beca7c828a",
+    "tests/cpp/ros2_stub/rclcpp/rclcpp.hpp": "b7bee20f9661604a18e6f45d8af36c02dcef874f1ae10d6c473217e78c8df0ee",
+    "tests/cpp/ros2_stub/sensor_msgs/msg/joy.hpp": "981850d51e0b3674a91bb1834893484f60b105a53c0f2c73e760b0bbc3701bc3",
+    "tests/cpp/usb2can_io_test.cpp": "487913b1ebd0f49f1489efb3c72b1dcb1cf10e8759fa5ab1c9b26cbec837c623",
+    "launch/usb2can_joystick.launch.py": "06473728e7aef717bc20995c78c004e82791472e2316c6e75a007cd7bfa8fb8f",
+    "scripts/ros2_contract.py": "a86f5928c079900f40779bfe62df0b03b01ea7e054121f1f76df93dbea3835f0",
+    "tests/test_ros2_launch.py": "981de928ac257e25b6d98d0b7482cacf5ae603a644f782163bf1b0abb3a7cc70"
+  },
+  "python_launch_tests_run": 6,
+  "cpp_checks_total": 121
+}

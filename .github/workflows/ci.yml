@@ -1,0 +1,52 @@
+name: Code and ROS 2 Jazzy checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check repository files and documentation
+        run: python3 scripts/check_repository.py
+      - name: Test ROS 2 launch construction
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Configure offline C++ checks
+        run: cmake -S . -B build-check -DCMAKE_BUILD_TYPE=Debug
+      - name: Compile protocol, IO and source checks
+        run: cmake --build build-check --parallel 2
+      - name: Run simulated protocol and IO tests
+        run: ctest --test-dir build-check --output-on-failure
+  ros2-jazzy:
+    runs-on: ubuntu-24.04
+    container: ros:jazzy-ros-base
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install package and test dependencies
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y build-essential cmake python3-colcon-common-extensions ros-jazzy-joy ros-jazzy-ament-cmake-gtest
+      - name: Build with real ROS 2 Jazzy headers and libraries
+        shell: bash
+        run: bash scripts/build_ros2.sh
+      - name: Run real rclcpp configuration tests
+        shell: bash
+        run: |
+          source ros2_ws/install/setup.bash
+          cd ros2_ws
+          colcon test --packages-select usb2can_demo_lingzu --return-code-on-test-failure
+          colcon test-result --verbose
+      - name: Verify installed launch and package assets
+        shell: bash
+        run: |
+          source ros2_ws/install/setup.bash
+          ros2 pkg executables usb2can_demo_lingzu | grep 'usb2can_demo_lingzu can_node'
+          ros2 launch usb2can_demo_lingzu usb2can_joystick.launch.py --show-args

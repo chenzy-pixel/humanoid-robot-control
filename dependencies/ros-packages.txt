@@ -1,0 +1,11 @@
+# ROS 2 package names required by package.xml and launch
+ament_cmake
+rclcpp
+rcl_interfaces
+sensor_msgs
+joy
+launch
+launch_ros
+ament_index_python
+# Tests
+ament_cmake_gtest

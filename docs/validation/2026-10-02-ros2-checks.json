@@ -1,0 +1,176 @@
+{
+  "date": "2026-10-02",
+  "target": "Ubuntu 24.04 / ROS 2 Jazzy",
+  "hardware_opened": false,
+  "actual_ros2_integration_tested": false,
+  "remote_ci_run": false,
+  "checks": {
+    "repository": {
+      "passed": true,
+      "files_checked": 59,
+      "local_links_checked": 21,
+      "ros2_launch_and_package_checked": true,
+      "credential_scan_passed": true,
+      "hardware_opened": false,
+      "errors": []
+    },
+    "python_launch_tests": {
+      "passed": true,
+      "count": 6
+    },
+    "project_structure": {
+      "python_experiments_checked": 24,
+      "ros2_launch_and_package_checked": true,
+      "local_links_checked": 98,
+      "errors": [],
+      "passed": true,
+      "scope": "Offline syntax, ROS 2 launch/package contracts and document paths; hardware modules were not imported."
+    },
+    "python_control_regressions": {
+      "passed": true,
+      "count": 57
+    },
+    "cpp": {
+      "status": "passed",
+      "native_checks": "69 C++ protocol/transport checks passed",
+      "native_io_checks": "23 C++ IO checks passed with substituted OS calls",
+      "ros2_config_checks": "29 ROS 2 configuration and shutdown checks passed with API/IO doubles",
+      "standalone_linux_compile_and_link": true,
+      "transport_aarch64_compile": true,
+      "vendor_libraries_link_only": [
+        "x86_64",
+        "aarch64"
+      ],
+      "ros2_compile_with_api_substitutes": true,
+      "actual_ros2_integration_tested": false,
+      "protocol_count": 69,
+      "serial_io_count": 23,
+      "ros2_config_count": 29
+    },
+    "sdk_assets": {
+      "passed": true,
+      "sdk_original_files_verified": 17,
+      "sdk_manifest_sha256": "04b42eb543df6d9b0e8d75961dc2faa00571a29815fd99f90059dce99e965236",
+      "architecture_copies_verified": true,
+      "manual_copies_sha256": "26646ae2475e0b4f79afa13f8e22951b97368064072709ee23754d535b9648c8",
+      "headers_rules_and_project_library_copies_verified": true,
+      "wheel_sha256": "af6bb48357143de32c880b0158309cac6e2f15ad70bcc3b2d09abad880990e37",
+      "wheel_isolated_import_passed": true,
+      "hardware_opened": false
+    },
+    "ros2_interface_audit": {
+      "passed": true,
+      "active_ros1_api_dependencies": 0,
+      "scope": "Active package, common transport, experiments, hardware and references. Historical snapshots and organization scripts excluded."
+    },
+    "ros2_jazzy_ci": {
+      "configured": true,
+      "real_rclcpp_config_tests": 9,
+      "executed": false
+    },
+    "linux_repository_cmake_cross_build": {
+      "passed": true,
+      "system": "x86_64-linux-gnu",
+      "scope": "Offline targets with API substitutes plus actual Linux serial headers",
+      "build_output": "All 11 initial build steps passed; changed config test rebuilt and linked in 2 steps."
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "<repository>\\scripts\\check_repository.py"
+      ],
+      "exit_code": 0,
+      "output": "{\n  \"passed\": true,\n  \"files_checked\": 59,\n  \"local_links_checked\": 21,\n  \"ros2_launch_and_package_checked\": true,\n  \"credential_scan_passed\": true,\n  \"hardware_opened\": false,\n  \"errors\": []\n}\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python3",
+        "<workspace>\\scripts\\check_project.py"
+      ],
+      "exit_code": 0,
+      "output": "{\"python_experiments_checked\": 24, \"ros2_launch_and_package_checked\": true, \"local_links_checked\": 98, \"errors\": [], \"passed\": true, \"scope\": \"Offline syntax, ROS 2 launch/package contracts and document paths; hardware modules were not imported.\"}\n"
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Actual Jazzy/colcon integration and DDS communication require Ubuntu 24.04 or the configured CI.",
+    "USB passthrough, SDL axis/button mapping, motor disconnects and timing require hardware validation.",
+    "Existing WSL registration points to a missing ext4.vhdx and could not be started."
+  ],
+  "regression_source_sha256": {
+    "common/include/lingzu_protocol.hpp": "1479c7644385fa9cf371dbb9a6b0a98ecda8bab33ba4b2b96eac665db88aa707",
+    "common/include/usb2can_packet.hpp": "cdf0608ec23b7b1756a25fd958dbbaffa94eee9369769b8f0cc2c28f2ec78664",
+    "common/include/usb2can_transport.hpp": "590d439a1f7d16fb658acf1138622643420cdb08fc792e935ce1b31fabc09699",
+    "common/src/usb_can.cpp": "40a1965e9722600fa0661ae241a9f241a5b77db965a6cc2fa0e9a4679b186544",
+    "config/motors.yaml": "cf494835bc22ead1f1c29b27277cda08911be7fa8feeea7dccded725453db54d",
+    "launch/usb2can_joystick.launch.py": "06473728e7aef717bc20995c78c004e82791472e2316c6e75a007cd7bfa8fb8f",
+    "ros2_ws/src/usb2can_demo_lingzu/can/libusb_can.so": "fcceac234b8955d70da97ccf876bb828db8624697ab23a378f6726cbc9a98ac8",
+    "ros2_ws/src/usb2can_demo_lingzu/can/usb_can.h": "9f34d63b8d73b75ac386b79fe5c25e90f286076aa9e44d405da358b6cc6e7f2c",
+    "ros2_ws/src/usb2can_demo_lingzu/CMakeLists.txt": "c347f9c757611215389c085a73275187c6fd8cec702607eebb9199d9068f7c1c",
+    "ros2_ws/src/usb2can_demo_lingzu/include/Tangair_usb2can.h": "0ef3cc9a00e92c75577315dcd43f96400827d8d4eb0e99662aa803644bede128",
+    "ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp": "cb039aef0638602dd5143d51fa00f495cb40e58e884a76c387035c1a2eb7b0ed",
+    "ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp": "595afbeff175ad3f2856dea41be9c94929cbaa198c62ff7c3f28b450ec4393f4",
+    "tests/cpp/ros2_config_test.cpp": "f2ebd71a5b38185ba30146ff5b75374b14fcb92fe235654259e86a3e633ee88c",
+    "tests/cpp/ros2_stub/rcl_interfaces/msg/parameter_descriptor.hpp": "102a127d6f43469b3388335254e8c14de9a52946f46cfdb539bda1beca7c828a",
+    "tests/cpp/ros2_stub/rclcpp/rclcpp.hpp": "b7bee20f9661604a18e6f45d8af36c02dcef874f1ae10d6c473217e78c8df0ee",
+    "tests/cpp/ros2_stub/sensor_msgs/msg/joy.hpp": "981850d51e0b3674a91bb1834893484f60b105a53c0f2c73e760b0bbc3701bc3"
+  },
+  "final_source_sha256": {
+    ".github/workflows/ci.yml": "3d6b38c5ddc6e4c63ef0dc2572c8385fbf705027ba472f682ea487b53f62641c",
+    "CMakeLists.txt": "fcee79292bfe9bbfc61561d71b794462ca53ec28f9eb876411fd1abd2a6986f9",
+    "common/include/lingzu_protocol.hpp": "1479c7644385fa9cf371dbb9a6b0a98ecda8bab33ba4b2b96eac665db88aa707",
+    "common/include/usb2can_packet.hpp": "cdf0608ec23b7b1756a25fd958dbbaffa94eee9369769b8f0cc2c28f2ec78664",
+    "common/include/usb2can_transport.hpp": "590d439a1f7d16fb658acf1138622643420cdb08fc792e935ce1b31fabc09699",
+    "common/src/usb_can.cpp": "40a1965e9722600fa0661ae241a9f241a5b77db965a6cc2fa0e9a4679b186544",
+    "config/motors.yaml": "cf494835bc22ead1f1c29b27277cda08911be7fa8feeea7dccded725453db54d",
+    "dependencies/README.md": "c1d29458747ad53d2a88149384f7ffc6b7bbac6420c867cba2370b0633e70a74",
+    "docs/ROS2迁移检查.md": "c2ebb1aef5b66c1263e60dfeb998f77ddb0b12c9f60e3ab208dcc0d8bfee420c",
+    "docs/硬件与控制映射.md": "1559d608b663bac27e0d8bb9e0a65f3c6194ae57d5f78a8fc8b9967950351391",
+    "docs/运行指南.md": "f21629e7ee279686dfd2a8632a8a132e17b163262ff98737b79333e410173655",
+    "docs/验证说明.md": "caa4d9aa478a08c642168f47e49b7a2e3fdad8076f0c6259a4c27320c2473760",
+    "launch/usb2can_joystick.launch.py": "06473728e7aef717bc20995c78c004e82791472e2316c6e75a007cd7bfa8fb8f",
+    "README.md": "e33f484dc3215e9117607ba779a7325912fdd670ea4b29784d7955fac0b9f50b",
+    "ros2_ws/src/usb2can_demo_lingzu/can/usb_can.h": "9f34d63b8d73b75ac386b79fe5c25e90f286076aa9e44d405da358b6cc6e7f2c",
+    "ros2_ws/src/usb2can_demo_lingzu/CMakeLists.txt": "6a38a5d9adfc70df628eaeb654fd48ce6712ea3c53b8ff86c740dd59e0c4440e",
+    "ros2_ws/src/usb2can_demo_lingzu/include/Tangair_usb2can.h": "0ef3cc9a00e92c75577315dcd43f96400827d8d4eb0e99662aa803644bede128",
+    "ros2_ws/src/usb2can_demo_lingzu/package.xml": "54430dabd85367f9d52f504c860f213ba6f8fb29041aba911e83089c9ad45b4d",
+    "ros2_ws/src/usb2can_demo_lingzu/readme.md": "693cac17f44345697811d76ab9cd1ec44f420e030eb1fada821cd15e027c5f81",
+    "ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp": "cb039aef0638602dd5143d51fa00f495cb40e58e884a76c387035c1a2eb7b0ed",
+    "ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp": "595afbeff175ad3f2856dea41be9c94929cbaa198c62ff7c3f28b450ec4393f4",
+    "ros2_ws/src/usb2can_demo_lingzu/test/config_test.cpp": "0a389d35c2fca666bc2db7e80f5d9c486e4112cfc30133dfb32a4c77dddcb16c",
+    "scripts/build_ros2.sh": "e9221eba52633d44693ec4eb1e455c963b8a25a69a3281608b626043e52f23e7",
+    "scripts/check_repository.py": "772ac32465b5bb1ae02f273388a68f587801842a410f024b04c14d7d0b0c99de",
+    "scripts/ros2_contract.py": "a86f5928c079900f40779bfe62df0b03b01ea7e054121f1f76df93dbea3835f0",
+    "scripts/run_ros2.sh": "2180642ee899be36e3a2902ab8f9df6d674b84cf4fd71340589a7c7eb7f8a2cf",
+    "tests/cpp/linux_io_stub/fcntl.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/poll.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/sys/file.h": "d34b6fe25c9d05cbd0c51762349de39b6d15e4176c12d47a02a7cdd7d8aaccb2",
+    "tests/cpp/linux_io_stub/termios.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/test_io.hpp": "56d1efbd9075b03ba97cc06f9e871ed9c0ac5d33f28d2676c19f0237568483c8",
+    "tests/cpp/linux_io_stub/unistd.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/protocol_test.cpp": "7feb90d45fe07f2b3abd152005e209422cf2df6c81ea2d74771851a203fcd096",
+    "tests/cpp/ros2_config_test.cpp": "f2ebd71a5b38185ba30146ff5b75374b14fcb92fe235654259e86a3e633ee88c",
+    "tests/cpp/ros2_stub/rcl_interfaces/msg/parameter_descriptor.hpp": "102a127d6f43469b3388335254e8c14de9a52946f46cfdb539bda1beca7c828a",
+    "tests/cpp/ros2_stub/rclcpp/rclcpp.hpp": "b7bee20f9661604a18e6f45d8af36c02dcef874f1ae10d6c473217e78c8df0ee",
+    "tests/cpp/ros2_stub/sensor_msgs/msg/joy.hpp": "981850d51e0b3674a91bb1834893484f60b105a53c0f2c73e760b0bbc3701bc3",
+    "tests/cpp/usb2can_io_test.cpp": "487913b1ebd0f49f1489efb3c72b1dcb1cf10e8759fa5ab1c9b26cbec837c623",
+    "tests/README.md": "271079e6bacd057dce8cf424ed23ecbc95cb659c167f2c4bd0930c17df5afcea",
+    "tests/test_ros2_launch.py": "981de928ac257e25b6d98d0b7482cacf5ae603a644f782163bf1b0abb3a7cc70"
+  }
+}
