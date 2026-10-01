@@ -16,12 +16,12 @@ rcl_interfaces::msg::ParameterDescriptor read_only() {
     return descriptor;
 }
 double number(rclcpp::Node& node, const std::string& prefix, const char* key) {
-    const double n = node.declare_parameter(prefix + key, rclcpp::ParameterType::PARAMETER_DOUBLE, read_only()).get_value<double>();
+    const double n = node.declare_parameter(prefix + key, rclcpp::ParameterType::PARAMETER_DOUBLE, read_only()).get<double>();
     if (!std::isfinite(n)) throw std::invalid_argument("Non-finite joint configuration");
     return n;
 }
 int integer(rclcpp::Node& node, const std::string& prefix, const char* key) {
-    const auto n = node.declare_parameter(prefix + key, rclcpp::ParameterType::PARAMETER_INTEGER, read_only()).get_value<int64_t>();
+    const auto n = node.declare_parameter(prefix + key, rclcpp::ParameterType::PARAMETER_INTEGER, read_only()).get<int64_t>();
     if (n < std::numeric_limits<int>::min() || n > std::numeric_limits<int>::max())
         throw std::invalid_argument("Integer joint field required");
     return static_cast<int>(n);
@@ -57,12 +57,12 @@ void Tangair_usb2can::loadConfig() {
             throw std::invalid_argument("Invalid device/channel/motor ID");
         j.device = static_cast<unsigned>(device);
         j.channel = static_cast<uint8_t>(channel); j.id = static_cast<uint8_t>(id);
-        j.model = config.declare_parameter(prefix + "model", rclcpp::ParameterType::PARAMETER_STRING, read_only()).get_value<std::string>();
+        j.model = config.declare_parameter(prefix + "model", rclcpp::ParameterType::PARAMETER_STRING, read_only()).get<std::string>();
         j.limits = lingzu::limits(j.model);
         j.lower = number(config, prefix, "min_position"); j.upper = number(config, prefix, "max_position");
         j.neutral = number(config, prefix, "neutral_position"); j.kp = number(config, prefix, "kp"); j.kd = number(config, prefix, "kd");
         j.direction = number(config, prefix, "direction");
-        j.follow = config.declare_parameter(prefix + "follow_joystick", rclcpp::ParameterType::PARAMETER_BOOL, read_only()).get_value<bool>();
+        j.follow = config.declare_parameter(prefix + "follow_joystick", rclcpp::ParameterType::PARAMETER_BOOL, read_only()).get<bool>();
         if (j.lower >= j.upper || j.lower < -j.limits.position || j.upper > j.limits.position ||
             j.neutral < j.lower || j.neutral > j.upper || (j.direction != 1 && j.direction != -1))
             throw std::invalid_argument("Invalid mechanical limits, neutral position or direction");

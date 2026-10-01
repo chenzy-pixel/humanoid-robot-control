@@ -14,17 +14,24 @@
 
 namespace rclcpp {
 enum class ParameterType { PARAMETER_BOOL, PARAMETER_INTEGER, PARAMETER_DOUBLE, PARAMETER_STRING };
+class ParameterValue {
+    std::variant<bool, int64_t, double, std::string, std::vector<std::string>> value_;
+public:
+    template<class T> explicit ParameterValue(T value) : value_(std::move(value)) {}
+    template<class T> const T& get() const {
+        const auto value = std::get_if<T>(&value_);
+        if (!value) throw std::runtime_error("Parameter type mismatch");
+        return *value;
+    }
+};
 class Parameter {
     std::string name_;
-    std::variant<bool, int64_t, double, std::string, std::vector<std::string>> value_;
+    ParameterValue value_;
 public:
     template<class T> Parameter(std::string name, T value) : name_(std::move(name)), value_(std::move(value)) {}
     const std::string& get_name() const { return name_; }
-    template<class T> T get_value() const {
-        const auto value = std::get_if<T>(&value_);
-        if (!value) throw std::runtime_error("Parameter type mismatch: " + name_);
-        return *value;
-    }
+    template<class T> T get_value() const { return value_.get<T>(); }
+    const ParameterValue& get_parameter_value() const { return value_; }
 };
 class NodeOptions {
 public:
@@ -60,7 +67,7 @@ public:
         declared_.emplace(name, value); readonly_[name] = descriptor.read_only;
         return result;
     }
-    Parameter declare_parameter(const std::string& name, ParameterType type,
+    const ParameterValue& declare_parameter(const std::string& name, ParameterType type,
         const rcl_interfaces::msg::ParameterDescriptor& descriptor = {}) {
         const auto found = overrides_.find(name);
         if (found == overrides_.end()) throw std::runtime_error("Uninitialized parameter: " + name);
@@ -70,7 +77,7 @@ public:
             case ParameterType::PARAMETER_DOUBLE: declare_parameter<double>(name, 0.0, descriptor); break;
             case ParameterType::PARAMETER_STRING: declare_parameter<std::string>(name, "", descriptor); break;
         }
-        return found->second;
+        return declared_.at(name).get_parameter_value();
     }
     template<class M, class Callback> typename Subscription<M>::SharedPtr create_subscription(
         const std::string&, const SensorDataQoS& qos, Callback callback) {

@@ -4,6 +4,12 @@
 #include <cstdio>
 #include <iostream>
 #include <limits>
+#include <type_traits>
+#include <utility>
+
+static_assert(std::is_same<decltype(std::declval<rclcpp::Node&>().declare_parameter(
+    std::declval<std::string>(), rclcpp::ParameterType::PARAMETER_DOUBLE)),
+    const rclcpp::ParameterValue&>::value, "Typed declaration must match the Jazzy ParameterValue API");
 
 namespace {
 int opens = 0, closes = 0;
