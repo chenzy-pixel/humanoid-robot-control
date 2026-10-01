@@ -17,4 +17,4 @@ SOULDE USB2CAN SDK 和灵足报文层是独立硬件协议实现，不含 ROS 1 
 
 迁移前活动源码快照保存在工作区根目录 `archive/reviews/2026-10-02-before-ros2`。更早的校验 JSON 保留当时的结果，当前结果另存到 `docs/validation/2026-10-02-ros2-checks.json`。
 
-真实 ROS 2 和实机验证命令见 [运行指南](运行指南.md)。当前 Windows 工作区缺少 ROS 2 环境，WSL 无法访问；本机检查使用 API/IO 替代实现和 Linux 交叉编译。尚未验证 DDS 通信、实际 colcon 集成、手柄映射或电机硬件响应。
+真实 ROS 2 和实机验证命令见 [运行指南](运行指南.md)。当前 Windows 工作区缺少 ROS 2 环境，WSL 无法访问；本机检查使用 API/IO 替代实现和 Linux 交叉编译。实际 colcon 构建、rclcpp 参数测试及安装入口现已通过 [GitHub CI](https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038)。DDS 通信、实际手柄映射和电机硬件响应仍需现场验收。

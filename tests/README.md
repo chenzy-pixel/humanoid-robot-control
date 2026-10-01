@@ -26,4 +26,4 @@ colcon test --packages-select usb2can_demo_lingzu --return-code-on-test-failure
 colcon test-result --verbose
 ```
 
-本机完成的范围见 [验证说明](../docs/验证说明.md)。真实 Jazzy 构建和测试已配置到 CI，本次尚未运行。
+本机完成的范围见 [验证说明](../docs/验证说明.md)。真实 Jazzy 构建、rclcpp 参数测试及安装入口检查已通过 [GitHub CI](https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038)，记录见 [CI 证据](../docs/validation/2026-10-02-github-ci.json)。

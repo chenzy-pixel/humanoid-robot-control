@@ -1,0 +1,220 @@
+{
+  "date": "2026-10-02",
+  "passed": true,
+  "tested_commit": "dee1ab77d69c6cdd5da30e9c6950e1621e95acd7",
+  "workflow_url": "https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038",
+  "hardware_tested": false,
+  "linux_native_offline_checks": true,
+  "real_ros2_jazzy_build_and_configuration_tests": true,
+  "installed_launch_and_package_checked": true,
+  "jobs": [
+    {
+      "completedAt": "2026-10-01T21:08:47Z",
+      "conclusion": "success",
+      "databaseId": 110585022126,
+      "name": "ros2-jazzy",
+      "startedAt": "2026-10-01T21:07:25Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-01T21:07:26Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-01T21:07:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:49Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-01T21:07:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:51Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 3,
+          "startedAt": "2026-10-01T21:07:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:21Z",
+          "conclusion": "success",
+          "name": "Install package and test dependencies",
+          "number": 4,
+          "startedAt": "2026-10-01T21:07:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:39Z",
+          "conclusion": "success",
+          "name": "Build with real ROS 2 Jazzy headers and libraries",
+          "number": 5,
+          "startedAt": "2026-10-01T21:08:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:40Z",
+          "conclusion": "success",
+          "name": "Run real rclcpp configuration tests",
+          "number": 6,
+          "startedAt": "2026-10-01T21:08:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:41Z",
+          "conclusion": "success",
+          "name": "Verify installed launch and package assets",
+          "number": 7,
+          "startedAt": "2026-10-01T21:08:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:41Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 13,
+          "startedAt": "2026-10-01T21:08:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:45Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 14,
+          "startedAt": "2026-10-01T21:08:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:08:45Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-01T21:08:45Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038/job/110585022126"
+    },
+    {
+      "completedAt": "2026-10-01T21:07:38Z",
+      "conclusion": "success",
+      "databaseId": 110585022521,
+      "name": "linux-checks",
+      "startedAt": "2026-10-01T21:07:26Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-01T21:07:27Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-01T21:07:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:29Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-01T21:07:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:29Z",
+          "conclusion": "success",
+          "name": "Check repository files and documentation",
+          "number": 3,
+          "startedAt": "2026-10-01T21:07:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:29Z",
+          "conclusion": "success",
+          "name": "Test ROS 2 launch construction",
+          "number": 4,
+          "startedAt": "2026-10-01T21:07:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:30Z",
+          "conclusion": "success",
+          "name": "Configure offline C++ checks",
+          "number": 5,
+          "startedAt": "2026-10-01T21:07:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:35Z",
+          "conclusion": "success",
+          "name": "Compile protocol, IO and source checks",
+          "number": 6,
+          "startedAt": "2026-10-01T21:07:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:36Z",
+          "conclusion": "success",
+          "name": "Run simulated protocol and IO tests",
+          "number": 7,
+          "startedAt": "2026-10-01T21:07:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:36Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 14,
+          "startedAt": "2026-10-01T21:07:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-01T21:07:36Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-01T21:07:36Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038/job/110585022521"
+    }
+  ],
+  "source_sha256": {
+    ".github/workflows/ci.yml": "3d6b38c5ddc6e4c63ef0dc2572c8385fbf705027ba472f682ea487b53f62641c",
+    "CMakeLists.txt": "fcee79292bfe9bbfc61561d71b794462ca53ec28f9eb876411fd1abd2a6986f9",
+    "common/include/lingzu_protocol.hpp": "1479c7644385fa9cf371dbb9a6b0a98ecda8bab33ba4b2b96eac665db88aa707",
+    "common/include/usb2can_packet.hpp": "cdf0608ec23b7b1756a25fd958dbbaffa94eee9369769b8f0cc2c28f2ec78664",
+    "common/include/usb2can_transport.hpp": "590d439a1f7d16fb658acf1138622643420cdb08fc792e935ce1b31fabc09699",
+    "common/src/usb_can.cpp": "40a1965e9722600fa0661ae241a9f241a5b77db965a6cc2fa0e9a4679b186544",
+    "config/motors.yaml": "cf494835bc22ead1f1c29b27277cda08911be7fa8feeea7dccded725453db54d",
+    "launch/usb2can_joystick.launch.py": "06473728e7aef717bc20995c78c004e82791472e2316c6e75a007cd7bfa8fb8f",
+    "ros2_ws/src/usb2can_demo_lingzu/can/usb_can.h": "9f34d63b8d73b75ac386b79fe5c25e90f286076aa9e44d405da358b6cc6e7f2c",
+    "ros2_ws/src/usb2can_demo_lingzu/CMakeLists.txt": "6a38a5d9adfc70df628eaeb654fd48ce6712ea3c53b8ff86c740dd59e0c4440e",
+    "ros2_ws/src/usb2can_demo_lingzu/include/Tangair_usb2can.h": "0ef3cc9a00e92c75577315dcd43f96400827d8d4eb0e99662aa803644bede128",
+    "ros2_ws/src/usb2can_demo_lingzu/package.xml": "009fb7f186ff8350adb977c83c268c8f0c5991f395a8730414811d75540a0ea5",
+    "ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp": "cb039aef0638602dd5143d51fa00f495cb40e58e884a76c387035c1a2eb7b0ed",
+    "ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp": "ce42b8c23ef00bdfeb2bc430f181f3eb6f0ceddd228e9ef850cb2403e81e3bfa",
+    "ros2_ws/src/usb2can_demo_lingzu/test/config_test.cpp": "0a389d35c2fca666bc2db7e80f5d9c486e4112cfc30133dfb32a4c77dddcb16c",
+    "scripts/build_ros2.sh": "e9221eba52633d44693ec4eb1e455c963b8a25a69a3281608b626043e52f23e7",
+    "scripts/check_repository.py": "772ac32465b5bb1ae02f273388a68f587801842a410f024b04c14d7d0b0c99de",
+    "scripts/ros2_contract.py": "a86f5928c079900f40779bfe62df0b03b01ea7e054121f1f76df93dbea3835f0",
+    "scripts/run_ros2.sh": "2180642ee899be36e3a2902ab8f9df6d674b84cf4fd71340589a7c7eb7f8a2cf",
+    "tests/cpp/linux_io_stub/fcntl.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/poll.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/sys/file.h": "d34b6fe25c9d05cbd0c51762349de39b6d15e4176c12d47a02a7cdd7d8aaccb2",
+    "tests/cpp/linux_io_stub/termios.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/linux_io_stub/test_io.hpp": "56d1efbd9075b03ba97cc06f9e871ed9c0ac5d33f28d2676c19f0237568483c8",
+    "tests/cpp/linux_io_stub/unistd.h": "a1c8f87675165813183b690e31107260031e329f173c214354ec62b45f7e7c33",
+    "tests/cpp/protocol_test.cpp": "7feb90d45fe07f2b3abd152005e209422cf2df6c81ea2d74771851a203fcd096",
+    "tests/cpp/ros2_config_test.cpp": "6ac258bb0ec5cf7ec3d2b604278be2f0b9517b83aa6c9342ebfe72cba4ae8e4d",
+    "tests/cpp/ros2_stub/rcl_interfaces/msg/parameter_descriptor.hpp": "102a127d6f43469b3388335254e8c14de9a52946f46cfdb539bda1beca7c828a",
+    "tests/cpp/ros2_stub/rclcpp/rclcpp.hpp": "3e4c07fecfee5db3f13870ea61c3816fbddb630370bbc6c1137e7cf0e3d3fdf2",
+    "tests/cpp/ros2_stub/sensor_msgs/msg/joy.hpp": "981850d51e0b3674a91bb1834893484f60b105a53c0f2c73e760b0bbc3701bc3",
+    "tests/cpp/usb2can_io_test.cpp": "487913b1ebd0f49f1489efb3c72b1dcb1cf10e8759fa5ab1c9b26cbec837c623",
+    "tests/test_ros2_launch.py": "981de928ac257e25b6d98d0b7482cacf5ae603a644f782163bf1b0abb3a7cc70"
+  }
+}

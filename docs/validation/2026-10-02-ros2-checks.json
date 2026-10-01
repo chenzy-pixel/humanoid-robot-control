@@ -172,5 +172,7 @@
     "tests/cpp/usb2can_io_test.cpp": "487913b1ebd0f49f1489efb3c72b1dcb1cf10e8759fa5ab1c9b26cbec837c623",
     "tests/README.md": "271079e6bacd057dce8cf424ed23ecbc95cb659c167f2c4bd0930c17df5afcea",
     "tests/test_ros2_launch.py": "981de928ac257e25b6d98d0b7482cacf5ae603a644f782163bf1b0abb3a7cc70"
-  }
+  },
+  "record_role": "Historical local validation snapshot before the real Jazzy API compatibility fix",
+  "current_ci_evidence": "2026-10-02-github-ci.json"
 }

@@ -52,7 +52,7 @@ colcon test --packages-select usb2can_demo_lingzu --return-code-on-test-failure
 colcon test-result --verbose
 ```
 
-[验证说明](docs/验证说明.md) 区分本机已完成的检查与尚需在目标机执行的集成测试。GitHub Actions 已配置 Ubuntu 离线检查与 Jazzy 容器中的真实 ament/rclcpp 构建、参数文件测试和已安装 launch 检查；本次未运行远程 CI。
+[验证说明](docs/验证说明.md) 区分本机已完成的检查与尚需在目标机执行的集成测试。GitHub Actions 已配置 Ubuntu 离线检查与 Jazzy 容器中的真实 ament/rclcpp 构建、参数文件测试和已安装 launch 检查；Linux 离线检查、真实 Jazzy/colcon 构建、rclcpp 参数测试和安装入口检查均已通过 [GitHub CI](https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038)，记录见 [CI 证据](docs/validation/2026-10-02-github-ci.json)。
 
 源码：[电机协议](common/include/lingzu_protocol.hpp)、[调度与返回值](common/include/usb2can_transport.hpp)、[CRC 与串口解析](common/include/usb2can_packet.hpp)、[Linux 串口实现](common/src/usb_can.cpp)。[USB2CAN/USB2FDCAN 手册 v2.5](manuals/usb2can/SOULDE%20Studio%20USB2CAN及USB2FDCAN转换模块使用说明书v2.5.pdf) 中的经典 CAN 载荷为 0～8 字节；当前电机报文 DLC=8，使用固定 8 个数据槽位。
 

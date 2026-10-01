@@ -235,5 +235,7 @@
     "tests/test_ros2_launch.py": "981de928ac257e25b6d98d0b7482cacf5ae603a644f782163bf1b0abb3a7cc70"
   },
   "python_launch_tests_run": 6,
-  "cpp_checks_total": 121
+  "cpp_checks_total": 121,
+  "record_role": "Historical local validation snapshot before the real Jazzy API compatibility fix",
+  "current_ci_evidence": "2026-10-02-github-ci.json"
 }
