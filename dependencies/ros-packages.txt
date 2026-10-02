@@ -3,6 +3,8 @@ ament_cmake
 rclcpp
 rcl_interfaces
 sensor_msgs
+trajectory_msgs
+std_msgs
 joy
 launch
 launch_ros

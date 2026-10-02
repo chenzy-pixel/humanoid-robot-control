@@ -14,7 +14,7 @@ def check_ros2_contract(root):
         if package.findtext('buildtool_depend') != 'ament_cmake' or package.findtext('export/build_type') != 'ament_cmake':
             errors.append('Expected ament_cmake build type')
         dependencies = {item.text for item in package if item.tag.endswith('depend')}
-        if not {'rclcpp', 'rcl_interfaces', 'sensor_msgs', 'joy', 'launch', 'launch_ros', 'ament_index_python'} <= dependencies:
+        if not {'rclcpp', 'rcl_interfaces', 'sensor_msgs', 'trajectory_msgs', 'std_msgs', 'joy', 'launch', 'launch_ros', 'ament_index_python'} <= dependencies:
             errors.append('ROS 2 package is missing runtime dependencies')
         if {'catkin', 'roscpp', 'rospy'} & dependencies:
             errors.append('Active package still depends on ROS 1')

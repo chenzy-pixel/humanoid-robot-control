@@ -2,6 +2,8 @@
 
 ROS 2 Jazzy 手柄控制工程，目标系统 Ubuntu 24.04，适用于经典 SOULDE USB2CAN 与 RS00、RS02、RS03、RS04 混用。每个设备/CAN 通道/电机 ID 独立配置型号、机械限位、方向与控制增益。
 
+支持 [独立多关节轨迹控制](docs/多关节轨迹控制.md)：标准 `JointTrajectory` 输入、本地 Ruckig 插值、逐关节速度/加速度/jerk 限制，以及关节反馈和目标状态发布。配置必须填写各关节的 `max_velocity`、`max_acceleration` 和 `max_jerk`。
+
 控制节点使用 `rclcpp`、`sensor_msgs/msg/Joy` 和 `ament_cmake`，通过 colcon 构建。USB2CAN 收发层直接编译：A8/A9 标记、小端 CAN ID、固定 17 字节串口包与 CRC8，支持分片、连续报文、短写、超时和端口排他锁。经典 CAN 速度为 1 Mbit/s，通道为 1/2。
 
 | 目录 | 内容 |
@@ -53,6 +55,8 @@ colcon test-result --verbose
 ```
 
 [验证说明](docs/验证说明.md) 区分本机已完成的检查与尚需在目标机执行的集成测试。GitHub Actions 已配置 Ubuntu 离线检查与 Jazzy 容器中的真实 ament/rclcpp 构建、参数文件测试和已安装 launch 检查；Linux 离线检查、真实 Jazzy/colcon 构建、rclcpp 参数测试和安装入口检查均已通过 [GitHub CI](https://github.com/chenzy-pixel/humanoid-robot-control/actions/runs/36926500038)，记录见 [CI 证据](docs/validation/2026-10-02-github-ci.json)。
+
+该 CI 记录对应轨迹功能加入前的基线。新增轨迹功能已接入离线测试和 CI 构建流程，真实 Jazzy 与实机验收范围见 [多关节轨迹控制](docs/多关节轨迹控制.md)。
 
 源码：[电机协议](common/include/lingzu_protocol.hpp)、[调度与返回值](common/include/usb2can_transport.hpp)、[CRC 与串口解析](common/include/usb2can_packet.hpp)、[Linux 串口实现](common/src/usb_can.cpp)。[USB2CAN/USB2FDCAN 手册 v2.5](manuals/usb2can/SOULDE%20Studio%20USB2CAN及USB2FDCAN转换模块使用说明书v2.5.pdf) 中的经典 CAN 载荷为 0～8 字节；当前电机报文 DLC=8，使用固定 8 个数据槽位。
 

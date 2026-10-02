@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           apt-get update
-          apt-get install -y build-essential cmake python3-colcon-common-extensions ros-jazzy-joy ros-jazzy-ament-cmake-gtest
+          apt-get install -y build-essential cmake python3-colcon-common-extensions ros-jazzy-joy ros-jazzy-trajectory-msgs ros-jazzy-std-msgs ros-jazzy-ament-cmake-gtest
       - name: Build with real ROS 2 Jazzy headers and libraries
         shell: bash
         run: bash scripts/build_ros2.sh

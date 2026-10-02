@@ -2,6 +2,8 @@
 #pragma once
 #include <rcl_interfaces/msg/parameter_descriptor.hpp>
 #include <sensor_msgs/msg/joy.hpp>
+#include <trajectory_msgs/msg/joint_trajectory.hpp>
+#include <any>
 #include <chrono>
 #include <functional>
 #include <map>
@@ -9,6 +11,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <type_traits>
 #include <variant>
 #include <vector>
 
@@ -40,16 +43,28 @@ public:
 };
 struct Logger {};
 struct Clock {};
+struct Time { operator builtin_interfaces::msg::Time() const { return {}; } };
 inline Logger get_logger(const std::string&) { return {}; }
 struct SensorDataQoS {
     unsigned depth = 5;
     SensorDataQoS& keep_last(unsigned value) { depth = value; return *this; }
 };
+struct QoS {
+    unsigned depth;
+    explicit QoS(unsigned value) : depth(value) {}
+};
 template<class M> struct Subscription { using SharedPtr = std::shared_ptr<Subscription<M>>; };
+template<class M> struct Publisher {
+    using SharedPtr = std::shared_ptr<Publisher<M>>;
+    std::vector<M> messages;
+    void publish(const M& message) { messages.push_back(message); }
+};
 class Node {
     std::map<std::string, Parameter> overrides_, declared_;
     std::map<std::string, bool> readonly_;
     std::function<void(sensor_msgs::msg::Joy::ConstSharedPtr)> joy_callback_;
+    std::function<void(trajectory_msgs::msg::JointTrajectory::ConstSharedPtr)> trajectory_callback_;
+    std::map<std::string, std::any> publishers_;
 public:
     using SharedPtr = std::shared_ptr<Node>;
     unsigned subscription_depth = 0;
@@ -58,6 +73,7 @@ public:
     }
     Logger get_logger() const { return {}; }
     std::shared_ptr<Clock> get_clock() const { return std::make_shared<Clock>(); }
+    Time now() const { return {}; }
     template<class T> T declare_parameter(const std::string& name, T initial,
         const rcl_interfaces::msg::ParameterDescriptor& descriptor = {}) {
         if (declared_.count(name)) throw std::runtime_error("Already declared: " + name);
@@ -79,10 +95,18 @@ public:
         }
         return declared_.at(name).get_parameter_value();
     }
-    template<class M, class Callback> typename Subscription<M>::SharedPtr create_subscription(
-        const std::string&, const SensorDataQoS& qos, Callback callback) {
-        subscription_depth = qos.depth; joy_callback_ = callback;
+    template<class M, class Q, class Callback> typename Subscription<M>::SharedPtr create_subscription(
+        const std::string&, const Q& qos, Callback callback) {
+        if constexpr (std::is_same<M, sensor_msgs::msg::Joy>::value) {
+            subscription_depth = qos.depth; joy_callback_ = callback;
+        } else { trajectory_callback_ = callback; }
         return std::make_shared<Subscription<M>>();
+    }
+    template<class M, class Q> typename Publisher<M>::SharedPtr create_publisher(const std::string& topic, const Q&) {
+        auto publisher = std::make_shared<Publisher<M>>(); publishers_[topic] = publisher; return publisher;
+    }
+    template<class M> typename Publisher<M>::SharedPtr publisher(const std::string& topic) {
+        return std::any_cast<typename Publisher<M>::SharedPtr>(publishers_.at(topic));
     }
     struct SetResult { bool successful; };
     SetResult set_parameter(const Parameter& value) {
@@ -90,6 +114,8 @@ public:
         declared_.insert_or_assign(value.get_name(), value); return {true};
     }
     void dispatch(sensor_msgs::msg::Joy::ConstSharedPtr message) { joy_callback_(message); }
+    void dispatch(trajectory_msgs::msg::JointTrajectory::ConstSharedPtr message) { trajectory_callback_(message); }
+    std::function<void()> on_spin;
 };
 inline bool initialized = true;
 struct InitOptions {};
@@ -103,8 +129,9 @@ struct WallRate {
 };
 namespace executors {
 struct SingleThreadedExecutor {
-    void add_node(const Node::SharedPtr&) {}
-    void spin_some(std::chrono::nanoseconds) {}
+    Node::SharedPtr node;
+    void add_node(const Node::SharedPtr& value) { node = value; }
+    void spin_some(std::chrono::nanoseconds) { if (node->on_spin) node->on_spin(); }
 };
 }
 template<class... T> void log(const Logger&, const char*, T&&...) {}

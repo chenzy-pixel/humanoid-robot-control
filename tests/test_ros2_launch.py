@@ -62,6 +62,13 @@ class LaunchContract(unittest.TestCase):
         self.assertEqual(params[0].args[0], 'motor_config')
         self.assertEqual(params[1]['log_file'].args[0].args[0], 'log_file')
 
+    def test_motion_mode_and_retiming_are_explicit(self):
+        self.assertEqual(self.arguments['control_mode'], 'joystick')
+        self.assertEqual(self.arguments['retime_trajectory'], 'false')
+        params = self.nodes['usb2can_demo_lingzu'].kwargs['parameters'][1]
+        self.assertIs(params['control_mode'].kwargs['value_type'], str)
+        self.assertIs(params['retime_trajectory'].kwargs['value_type'], bool)
+
     def test_sdl_device_selection(self):
         params = self.nodes['joy'].kwargs['parameters'][0]
         self.assertIs(params['device_id'].kwargs['value_type'], int)

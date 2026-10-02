@@ -29,6 +29,9 @@ def main():
     required = ['LICENSE', 'NOTICE', 'README.md', 'CMakeLists.txt', 'config/motors.yaml',
                 'common/src/usb_can.cpp', 'scripts/build_ros2.sh', 'scripts/run_ros2.sh',
                 'tests/cpp/protocol_test.cpp', 'tests/cpp/usb2can_io_test.cpp',
+                'common/include/joint_motion.hpp', 'common/src/joint_motion.cpp', 'common/ruckig.cmake',
+                'tests/cpp/trajectory_test.cpp', 'tests/cpp/ros2_motion_test.cpp',
+                'third_party/ruckig/LICENSE', 'config/trajectory.example.yaml',
                 'ros2_ws/src/usb2can_demo_lingzu/package.xml', 'launch/usb2can_joystick.launch.py']
     for name in required:
         if not (ROOT/name).is_file():

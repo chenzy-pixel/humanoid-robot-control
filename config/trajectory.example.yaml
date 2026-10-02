@@ -1,0 +1,8 @@
+header:
+  stamp: {sec: 0, nanosec: 0}
+joint_names: [motor_01, motor_02]
+points:
+  - positions: [0.2, -0.15]
+    time_from_start: {sec: 3, nanosec: 0}
+  - positions: [0.0, 0.0]
+    time_from_start: {sec: 6, nanosec: 0}

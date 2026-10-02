@@ -18,6 +18,8 @@ def generate_launch_description():
     device_id = LaunchConfiguration('joystick_device_id')
     device_name = LaunchConfiguration('joystick_device_name')
     log_file = LaunchConfiguration('log_file')
+    control_mode = LaunchConfiguration('control_mode')
+    retime_trajectory = LaunchConfiguration('retime_trajectory')
     joystick = Node(
         package='joy', executable='joy_node', name='joy_node', output='screen',
         parameters=[{
@@ -32,11 +34,15 @@ def generate_launch_description():
         parameters=[motor_config, {
             'hardware_confirmed': ParameterValue(hardware_confirmed, value_type=bool),
             'log_file': ParameterValue(log_file, value_type=str),
+            'control_mode': ParameterValue(control_mode, value_type=str),
+            'retime_trajectory': ParameterValue(retime_trajectory, value_type=bool),
         }],
     )
     return LaunchDescription([
         DeclareLaunchArgument('motor_config', default_value=os.path.join(share, 'config', 'motors.yaml')),
         DeclareLaunchArgument('hardware_confirmed', default_value='false'),
+        DeclareLaunchArgument('control_mode', default_value='joystick'),
+        DeclareLaunchArgument('retime_trajectory', default_value='false'),
         DeclareLaunchArgument('joystick_device_id', default_value='0'),
         DeclareLaunchArgument('joystick_device_name', default_value=''),
         DeclareLaunchArgument('log_file', default_value='motor_angle_log.csv'),

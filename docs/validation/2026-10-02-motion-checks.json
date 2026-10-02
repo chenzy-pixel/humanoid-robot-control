@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-02",
+  "platform": "Windows x86_64",
+  "compiler": "Zig 0.13.0, Clang 18.1.6",
+  "trajectory_library": "Ruckig 0.15.3 (local C++ calculator)",
+  "cmake_build_passed": true,
+  "ctest_suites_passed": 5,
+  "cpp_checks": {
+    "joint_trajectory_limits": 42,
+    "protocol_and_transport": 69,
+    "simulated_serial_io": 23,
+    "ros2_config_and_shutdown": 35,
+    "ros2_motion_execution": 40,
+    "total": 209
+  },
+  "python_launch_tests_passed": 7,
+  "repository_checks_passed": true,
+  "ros2_api_compile_with_substitutes_passed": true,
+  "tested_source_snapshot_matches_workspace": true,
+  "source_files_compared": 62,
+  "source_sha256": {
+    "common/src/joint_motion.cpp": "0d132311e9c47dfb16fcf5d56ea74694b345c6738693ec0bcd0cbecf278fd630",
+    "ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp": "24b19512e20d9990280a2821957f9a5dfd0ffb9cec0eaa1048be0243521ab31d"
+  },
+  "hardware_opened": false,
+  "actual_ros2_jazzy_integration_tested": false,
+  "hardware_tracking_and_acceleration_tested": false,
+  "scope": "Actual Ruckig and controller sources with ROS API and CAN IO substitutes; commanded motion limits, not measured hardware acceleration."
+}

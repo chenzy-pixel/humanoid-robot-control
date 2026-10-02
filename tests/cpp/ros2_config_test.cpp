@@ -24,6 +24,7 @@ std::vector<rclcpp::Parameter> config() {
         P("motors.joint.neutral_position", 0.0), P("motors.joint.direction", 1.0),
         P("motors.joint.kp", 18.0), P("motors.joint.kd", 0.8),
         P("motors.joint.follow_joystick", true),
+        P("motors.joint.max_velocity", 0.5), P("motors.joint.max_acceleration", 1.0), P("motors.joint.max_jerk", 4.0),
         P("log_file", std::string("ros2_config_test.csv"))};
 }
 void replace(std::vector<rclcpp::Parameter>& values, rclcpp::Parameter value) {
@@ -62,6 +63,9 @@ int main() {
         P("joystick_axis", std::numeric_limits<int64_t>::max()),
         P("host_id", int64_t{256}), P("hardware_confirmed", std::string("true")),
         P("motors.joint.direction", int64_t{1}),
+        P("motors.joint.max_velocity", 0.0), P("motors.joint.max_velocity", 34.0),
+        P("motors.joint.max_acceleration", -1.0), P("motors.joint.max_jerk", 0.0),
+        P("control_mode", std::string("unknown")), P("max_control_gap", 0.0),
     };
     for (const auto& invalid_value : invalid) {
         values = config(); replace(values, invalid_value); rejected(values); ++checks;

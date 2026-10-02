@@ -10,6 +10,10 @@ The source has been modified to add per-motor model configuration,
 validated serial framing, fault handling, and offline regression checks.
 Existing copyright and license notices are retained in the source files.
 
+Trajectory generation uses Ruckig 0.15.3 by Lars Berscheid:
+  https://github.com/pantor/ruckig
+  License: MIT (third_party/ruckig/LICENSE)
+
 Motor and adapter manuals and the reference vendor SDK binary retain
 their respective authors' rights and original terms. The code license
 does not grant additional rights to those third-party materials.

@@ -15,7 +15,8 @@ protected:
             P("motors.joint.min_position", -0.5), P("motors.joint.max_position", 0.5),
             P("motors.joint.neutral_position", 0.0), P("motors.joint.direction", 1.0),
             P("motors.joint.kp", 18.0), P("motors.joint.kd", 0.8),
-            P("motors.joint.follow_joystick", true)};
+            P("motors.joint.follow_joystick", true),
+            P("motors.joint.max_velocity", 0.5), P("motors.joint.max_acceleration", 1.0), P("motors.joint.max_jerk", 4.0)};
     }
     rclcpp::Node::SharedPtr node(std::vector<rclcpp::Parameter> params) {
         rclcpp::NodeOptions options;
@@ -53,6 +54,18 @@ TEST_F(Ros2Config, InvalidMotorId) {
 }
 TEST_F(Ros2Config, DuplicateNames) {
     auto params = joint(); params[0] = rclcpp::Parameter("motor_names", std::vector<std::string>{"joint", "joint"});
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
+TEST_F(Ros2Config, InvalidMotionLimits) {
+    auto params = joint(); params[12] = rclcpp::Parameter("motors.joint.max_velocity", 0.0);
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
+TEST_F(Ros2Config, RequiredAccelerationLimit) {
+    auto params = joint(); params.erase(params.begin() + 13);
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::exception);
+}
+TEST_F(Ros2Config, InvalidControlMode) {
+    auto params = joint(); params.emplace_back("control_mode", "unknown");
     auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
 }
 TEST_F(Ros2Config, ExampleYamlUsesNativeRos2Parameters) {
