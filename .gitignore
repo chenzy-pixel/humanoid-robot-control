@@ -5,6 +5,8 @@ logs/
 *.log
 **/__pycache__/
 *.py[cod]
+joint_calibration.txt
+joint_calibration.txt.tmp
 
 # Local editors, build output and private environment files
 .vscode/

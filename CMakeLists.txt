@@ -7,6 +7,10 @@ find_package(Threads REQUIRED)
 enable_testing()
 set(SDK_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/ros2_ws/src/usb2can_demo_lingzu/can")
 set(COMMON_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/common/include")
+set(CONTROLLER_SOURCES
+    ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp
+    ros2_ws/src/usb2can_demo_lingzu/src/controller_api.cpp
+    ros2_ws/src/usb2can_demo_lingzu/src/controller_motion.cpp)
 include(common/ruckig.cmake)
 add_library(joint_motion STATIC common/src/joint_motion.cpp)
 target_include_directories(joint_motion PUBLIC "${COMMON_INCLUDE}")
@@ -29,7 +33,7 @@ add_test(NAME usb2can_simulated_serial_io COMMAND usb2can_io_test)
 
 # Compile API usage only. Production ROS builds use scripts/build_ros2.sh.
 add_library(ros2_api_compile_check OBJECT
-    ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp
+    ${CONTROLLER_SOURCES}
     ros2_ws/src/usb2can_demo_lingzu/src/can_node.cpp)
 target_include_directories(ros2_api_compile_check PRIVATE tests/cpp/ros2_stub
     ros2_ws/src/usb2can_demo_lingzu/include "${COMMON_INCLUDE}" "${SDK_INCLUDE}")
@@ -46,12 +50,12 @@ foreach(target IN LISTS CHECK_TARGETS)
     target_compile_options(${target} PRIVATE -UNDEBUG)
 endforeach()
 
-add_executable(ros2_config_test tests/cpp/ros2_config_test.cpp ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp)
+add_executable(ros2_config_test tests/cpp/ros2_config_test.cpp ${CONTROLLER_SOURCES})
 target_include_directories(ros2_config_test PRIVATE tests/cpp/ros2_stub ros2_ws/src/usb2can_demo_lingzu/include "${COMMON_INCLUDE}" "${SDK_INCLUDE}")
 target_link_libraries(ros2_config_test PRIVATE Threads::Threads joint_motion)
 target_compile_options(ros2_config_test PRIVATE -Wall -Wextra -Werror -UNDEBUG)
 add_test(NAME ros2_config_and_shutdown COMMAND ros2_config_test)
-add_executable(ros2_motion_test tests/cpp/ros2_motion_test.cpp ros2_ws/src/usb2can_demo_lingzu/src/Tangair_usb2can.cpp)
+add_executable(ros2_motion_test tests/cpp/ros2_motion_test.cpp ${CONTROLLER_SOURCES})
 target_include_directories(ros2_motion_test PRIVATE tests/cpp/ros2_stub ros2_ws/src/usb2can_demo_lingzu/include "${COMMON_INCLUDE}" "${SDK_INCLUDE}")
 target_link_libraries(ros2_motion_test PRIVATE Threads::Threads joint_motion)
 target_compile_options(ros2_motion_test PRIVATE -Wall -Wextra -Werror -UNDEBUG)

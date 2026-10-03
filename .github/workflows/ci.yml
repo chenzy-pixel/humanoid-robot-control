@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check repository files and documentation
         run: python3 scripts/check_repository.py
-      - name: Test ROS 2 launch construction
+      - name: Test ROS 2 launch and Python USB2CAN interfaces
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Configure offline C++ checks
         run: cmake -S . -B build-check -DCMAKE_BUILD_TYPE=Debug
@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           apt-get update
-          apt-get install -y build-essential cmake python3-colcon-common-extensions ros-jazzy-joy ros-jazzy-trajectory-msgs ros-jazzy-std-msgs ros-jazzy-ament-cmake-gtest
+          apt-get install -y build-essential cmake python3-colcon-common-extensions ros-jazzy-joy ros-jazzy-trajectory-msgs ros-jazzy-std-msgs ros-jazzy-ament-cmake-gtest ros-jazzy-control-msgs ros-jazzy-rosidl-default-generators
       - name: Build with real ROS 2 Jazzy headers and libraries
         shell: bash
         run: bash scripts/build_ros2.sh
@@ -50,3 +50,9 @@ jobs:
           source ros2_ws/install/setup.bash
           ros2 pkg executables usb2can_demo_lingzu | grep 'usb2can_demo_lingzu can_node'
           ros2 launch usb2can_demo_lingzu usb2can_joystick.launch.py --show-args
+      - name: Test native services and trajectory action with virtual serial motors
+        shell: bash
+        run: |
+          source ros2_ws/install/setup.bash
+          export ROS_DOMAIN_ID=42 ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
+          python3 tests/ros2/test_program_interface.py

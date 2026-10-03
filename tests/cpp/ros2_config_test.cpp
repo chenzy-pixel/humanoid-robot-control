@@ -66,6 +66,9 @@ int main() {
         P("motors.joint.max_velocity", 0.0), P("motors.joint.max_velocity", 34.0),
         P("motors.joint.max_acceleration", -1.0), P("motors.joint.max_jerk", 0.0),
         P("control_mode", std::string("unknown")), P("max_control_gap", 0.0),
+        P("input_source", std::string("unknown")), P("calibration_file", std::string("")),
+        P("motors.joint.zero_offset", 20.0), P("goal_timeout", 0.01),
+        P("motors.joint.tracking_position_tolerance", 0.0), P("tracking_error_timeout", 0.0),
     };
     for (const auto& invalid_value : invalid) {
         values = config(); replace(values, invalid_value); rejected(values); ++checks;

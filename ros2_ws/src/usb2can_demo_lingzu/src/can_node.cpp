@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "Tangair_usb2can.h"
 #include <exception>
+#include <csignal>
 namespace {
 static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "Signal stop flag must always be lock-free");
 std::atomic<bool> stop_requested{false};

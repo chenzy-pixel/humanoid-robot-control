@@ -4,6 +4,8 @@ ROS 2 Jazzy 手柄控制工程，目标系统 Ubuntu 24.04，适用于经典 SOU
 
 支持 [独立多关节轨迹控制](docs/多关节轨迹控制.md)：标准 `JointTrajectory` 输入、本地 Ruckig 插值、逐关节速度/加速度/jerk 限制，以及关节反馈和目标状态发布。配置必须填写各关节的 `max_velocity`、`max_acceleration` 和 `max_jerk`。
 
+关节方向与软件零点统一作用于命令和反馈；轨迹按实际到位及持续跟踪误差判定结果。逐关节服务、标准轨迹 Action、标定保存与程序存活信号见 [关节标定与程序控制](docs/关节标定与程序控制.md)。
+
 控制节点使用 `rclcpp`、`sensor_msgs/msg/Joy` 和 `ament_cmake`，通过 colcon 构建。USB2CAN 收发层直接编译：A8/A9 标记、小端 CAN ID、固定 17 字节串口包与 CRC8，支持分片、连续报文、短写、超时和端口排他锁。经典 CAN 速度为 1 Mbit/s，通道为 1/2。
 
 | 目录 | 内容 |
@@ -13,6 +15,7 @@ ROS 2 Jazzy 手柄控制工程，目标系统 Ubuntu 24.04，适用于经典 SOU
 | `config/motors.yaml` | ROS 2 原生参数，四型号混用示例 |
 | `launch`、`scripts` | Python launch、colcon 构建和运行入口 |
 | `tests` | 离线协议、IO、参数和启动检查 |
+| `python` | Python 电机控制器、USB2CAN CRC/通道收发与 SDK 兼容接口，见 [安装说明](python/README.md) |
 | `manuals` | 电机与 USB2CAN 协议手册 |
 | `docs`、`dependencies` | 运行、配置和验证说明 |
 
@@ -31,7 +34,7 @@ bash scripts/run_ros2.sh
 bash scripts/run_ros2.sh hardware_confirmed:=true
 ```
 
-手柄使用 ROS 2 `joy_node`（SDL）。先运行 `ros2 run joy joy_enumerate_devices`，按编号或名称选择；通过 `ros2 topic echo /joy` 核对轴和按钮。轴 1 控制跟随电机，按钮 0 使能、1 失能、2 置零、3 清故障。SDL 的编号与旧 Linux 手柄接口可能不同，实际操作见 [运行指南](docs/运行指南.md)。
+手柄使用 ROS 2 `joy_node`（SDL）。先运行 `ros2 run joy joy_enumerate_devices`，按编号或名称选择；通过 `ros2 topic echo /joy` 核对轴和按钮。轴 1 控制跟随电机，按钮 0 使能、1 失能、2 软件置零、3 清故障。SDL 的编号与旧 Linux 手柄接口可能不同，实际操作见 [运行指南](docs/运行指南.md)。
 
 控制参数在启动时声明并设为只读；修改配置后重新启动。手柄消息采用 SensorData QoS，队列深度 1。控制与超时判断继续使用实际时间。输入/反馈超时、故障、状态异常、位置越界或发送失败触发失能。Ctrl+C/SIGTERM 请求退出，停止接收线程并尝试失能后关闭设备。
 

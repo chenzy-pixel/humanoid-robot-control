@@ -68,6 +68,22 @@ TEST_F(Ros2Config, InvalidControlMode) {
     auto params = joint(); params.emplace_back("control_mode", "unknown");
     auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
 }
+TEST_F(Ros2Config, InvalidCoordinateOffset) {
+    auto params = joint(); params.emplace_back("motors.joint.zero_offset", 20.0);
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
+TEST_F(Ros2Config, InvalidGoalTiming) {
+    auto params = joint(); params.emplace_back("goal_timeout", 0.01);
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
+TEST_F(Ros2Config, InvalidTrackingTolerance) {
+    auto params = joint(); params.emplace_back("motors.joint.tracking_position_tolerance", 0.0);
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
+TEST_F(Ros2Config, InvalidInputSource) {
+    auto params = joint(); params.emplace_back("input_source", "unknown");
+    auto n = node(params); EXPECT_THROW(Tangair_usb2can controller(n), std::invalid_argument);
+}
 TEST_F(Ros2Config, ExampleYamlUsesNativeRos2Parameters) {
     rclcpp::NodeOptions options;
     options.arguments({"--ros-args", "--params-file", MOTOR_CONFIG_FILE});

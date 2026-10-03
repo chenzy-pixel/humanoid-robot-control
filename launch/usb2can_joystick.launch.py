@@ -6,7 +6,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, EmitEvent, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
-from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -19,9 +20,12 @@ def generate_launch_description():
     device_name = LaunchConfiguration('joystick_device_name')
     log_file = LaunchConfiguration('log_file')
     control_mode = LaunchConfiguration('control_mode')
+    input_source = LaunchConfiguration('input_source')
+    calibration_file = LaunchConfiguration('calibration_file')
     retime_trajectory = LaunchConfiguration('retime_trajectory')
     joystick = Node(
         package='joy', executable='joy_node', name='joy_node', output='screen',
+        condition=IfCondition(PythonExpression(["'", input_source, "' == 'joystick'"])),
         parameters=[{
             'device_id': ParameterValue(device_id, value_type=int),
             'device_name': ParameterValue(device_name, value_type=str),
@@ -35,6 +39,8 @@ def generate_launch_description():
             'hardware_confirmed': ParameterValue(hardware_confirmed, value_type=bool),
             'log_file': ParameterValue(log_file, value_type=str),
             'control_mode': ParameterValue(control_mode, value_type=str),
+            'input_source': ParameterValue(input_source, value_type=str),
+            'calibration_file': ParameterValue(calibration_file, value_type=str),
             'retime_trajectory': ParameterValue(retime_trajectory, value_type=bool),
         }],
     )
@@ -42,6 +48,8 @@ def generate_launch_description():
         DeclareLaunchArgument('motor_config', default_value=os.path.join(share, 'config', 'motors.yaml')),
         DeclareLaunchArgument('hardware_confirmed', default_value='false'),
         DeclareLaunchArgument('control_mode', default_value='joystick'),
+        DeclareLaunchArgument('input_source', default_value='joystick'),
+        DeclareLaunchArgument('calibration_file', default_value='joint_calibration.txt'),
         DeclareLaunchArgument('retime_trajectory', default_value='false'),
         DeclareLaunchArgument('joystick_device_id', default_value='0'),
         DeclareLaunchArgument('joystick_device_name', default_value=''),

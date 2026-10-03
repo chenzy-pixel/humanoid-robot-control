@@ -38,7 +38,8 @@ class LaunchContract(unittest.TestCase):
             'launch.actions': module('launch.actions', DeclareLaunchArgument=self.Argument, EmitEvent=Action, RegisterEventHandler=self.Register),
             'launch.event_handlers': module('launch.event_handlers', OnProcessExit=Action),
             'launch.events': module('launch.events', Shutdown=Action),
-            'launch.substitutions': module('launch.substitutions', LaunchConfiguration=Action),
+            'launch.conditions': module('launch.conditions', IfCondition=Action),
+            'launch.substitutions': module('launch.substitutions', LaunchConfiguration=Action, PythonExpression=Action),
             'launch_ros': module('launch_ros'),
             'launch_ros.actions': module('launch_ros.actions', Node=self.Node),
             'launch_ros.parameter_descriptions': module('launch_ros.parameter_descriptions', ParameterValue=self.Value),
@@ -75,6 +76,14 @@ class LaunchContract(unittest.TestCase):
         self.assertIs(params['device_name'].kwargs['value_type'], str)
         self.assertEqual(self.nodes['joy'].kwargs['executable'], 'joy_node')
         self.assertNotIn('dev', params)
+
+    def test_program_input_and_calibration_configuration(self):
+        self.assertEqual(self.arguments['input_source'], 'joystick')
+        self.assertEqual(self.arguments['calibration_file'], 'joint_calibration.txt')
+        params = self.nodes['usb2can_demo_lingzu'].kwargs['parameters'][1]
+        self.assertIs(params['input_source'].kwargs['value_type'], str)
+        self.assertIs(params['calibration_file'].kwargs['value_type'], str)
+        self.assertIn('condition', self.nodes['joy'].kwargs)
 
     def test_repeat_and_axis_deadzone(self):
         params = self.nodes['joy'].kwargs['parameters'][0]

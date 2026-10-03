@@ -15,4 +15,5 @@ mkdir -p -- "$ROS_LOG_DIR"
 # Use the editable source config so hardware mapping changes do not require rebuilding.
 exec ros2 launch usb2can_demo_lingzu usb2can_joystick.launch.py \
   "motor_config:=$project_root/config/motors.yaml" \
+  "calibration_file:=$project_root/joint_calibration.txt" \
   "log_file:=$ROS_LOG_DIR/motor_angle_log.csv" "$@"

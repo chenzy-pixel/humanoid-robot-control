@@ -1,6 +1,10 @@
 # ROS 2 package names required by package.xml and launch
 ament_cmake
 rclcpp
+rclcpp_action
+control_msgs
+rosidl_default_generators
+rosidl_default_runtime
 rcl_interfaces
 sensor_msgs
 trajectory_msgs

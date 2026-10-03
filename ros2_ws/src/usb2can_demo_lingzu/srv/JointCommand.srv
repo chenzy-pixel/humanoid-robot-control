@@ -1,0 +1,14 @@
+# Empty joint_names selects all configured joints. Operations: status, heartbeat,
+# enable, disable, zero, calibrate, clear_fault. Calibrate requires known joint
+# positions in radians, one per selected name. Zero sets software joint zero.
+string operation
+string[] joint_names
+float64[] positions
+---
+bool success
+string message
+string[] joint_names
+bool[] enabled
+float64[] positions
+float64[] directions
+float64[] zero_offsets

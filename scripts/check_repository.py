@@ -33,6 +33,13 @@ def main():
                 'tests/cpp/trajectory_test.cpp', 'tests/cpp/ros2_motion_test.cpp',
                 'third_party/ruckig/LICENSE', 'config/trajectory.example.yaml',
                 'ros2_ws/src/usb2can_demo_lingzu/package.xml', 'launch/usb2can_joystick.launch.py']
+    required += ['ros2_ws/src/usb2can_demo_lingzu/srv/JointCommand.srv',
+                 'ros2_ws/src/usb2can_demo_lingzu/msg/TrajectoryTask.msg',
+                 'ros2_ws/src/usb2can_demo_lingzu/src/controller_api.cpp',
+                 'ros2_ws/src/usb2can_demo_lingzu/src/controller_motion.cpp',
+                 'tests/ros2/test_program_interface.py']
+    required += ['python/lingzu/serial_transport.py', 'python/pyusb2can/USB2CAN.py',
+                 'tests/test_python_usb2can.py']
     for name in required:
         if not (ROOT/name).is_file():
             errors.append('Missing required file: ' + name)

@@ -54,6 +54,14 @@ struct QoS {
     explicit QoS(unsigned value) : depth(value) {}
 };
 template<class M> struct Subscription { using SharedPtr = std::shared_ptr<Subscription<M>>; };
+template<class S> struct Service {
+    using SharedPtr = std::shared_ptr<Service<S>>;
+    std::function<void(std::shared_ptr<typename S::Request>, std::shared_ptr<typename S::Response>)> callback;
+    typename S::Response call(const typename S::Request& request) {
+        auto response = std::make_shared<typename S::Response>();
+        callback(std::make_shared<typename S::Request>(request), response); return *response;
+    }
+};
 template<class M> struct Publisher {
     using SharedPtr = std::shared_ptr<Publisher<M>>;
     std::vector<M> messages;
@@ -65,6 +73,7 @@ class Node {
     std::function<void(sensor_msgs::msg::Joy::ConstSharedPtr)> joy_callback_;
     std::function<void(trajectory_msgs::msg::JointTrajectory::ConstSharedPtr)> trajectory_callback_;
     std::map<std::string, std::any> publishers_;
+    std::map<std::string, std::any> interfaces_;
 public:
     using SharedPtr = std::shared_ptr<Node>;
     unsigned subscription_depth = 0;
@@ -107,6 +116,11 @@ public:
     }
     template<class M> typename Publisher<M>::SharedPtr publisher(const std::string& topic) {
         return std::any_cast<typename Publisher<M>::SharedPtr>(publishers_.at(topic));
+    }
+    template<class T> void attach_interface(const std::string& name, std::shared_ptr<T> value) { interfaces_[name] = value; }
+    template<class T> std::shared_ptr<T> interface(const std::string& name) { return std::any_cast<std::shared_ptr<T>>(interfaces_.at(name)); }
+    template<class S, class Callback> typename Service<S>::SharedPtr create_service(const std::string& name, Callback callback) {
+        auto service = std::make_shared<Service<S>>(); service->callback = callback; attach_interface(name, service); return service;
     }
     struct SetResult { bool successful; };
     SetResult set_parameter(const Parameter& value) {
